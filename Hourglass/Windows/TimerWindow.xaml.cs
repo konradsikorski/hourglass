@@ -369,7 +369,7 @@ namespace Hourglass.Windows
             }
         }
 
-        /// <summary>
+       /// <summary>
         /// Gets or sets the <see cref="Window.WindowState"/> before the window was minimized.
         /// </summary>
         public WindowState RestoreWindowState
@@ -1034,7 +1034,7 @@ namespace Hourglass.Windows
                     this.ResumeButton.IsEnabled = false;
                     this.StopButton.IsEnabled = false;
                     this.ResetButton.IsEnabled = false;
-                    this.CloseButton.IsEnabled = false;
+                    this.CloseButton.IsEnabled = true;
                     this.CancelButton.IsEnabled = this.Timer.State != TimerState.Stopped && this.Timer.State != TimerState.Expired;
                     this.UpdateButton.IsEnabled = UpdateManager.Instance.HasUpdates;
 
@@ -1105,8 +1105,8 @@ namespace Hourglass.Windows
                         this.StartButton.IsEnabled = false;
                         this.PauseButton.IsEnabled = this.Timer.State == TimerState.Running && this.Timer.SupportsPause;
                         this.ResumeButton.IsEnabled = this.Timer.State == TimerState.Paused;
-                        this.StopButton.IsEnabled = this.Timer.State != TimerState.Stopped && this.Timer.State != TimerState.Expired;
-                        this.ResetButton.IsEnabled = this.Timer.State == TimerState.Stopped || this.Timer.State == TimerState.Expired;
+                        this.StopButton.IsEnabled = this.Timer.State != TimerState.Stopped;
+                        this.ResetButton.IsEnabled = this.Timer.State != TimerState.Stopped;
                         this.CloseButton.IsEnabled = this.Timer.State == TimerState.Stopped || this.Timer.State == TimerState.Expired;
                         this.CancelButton.IsEnabled = false;
                         this.UpdateButton.IsEnabled = UpdateManager.Instance.HasUpdates;
@@ -1639,8 +1639,9 @@ namespace Hourglass.Windows
                 return;
             }
 
-            this.Timer.Stop();
-            this.SwitchToInputMode();
+            this.Options.LockInterface = false;
+
+            this.Show(this.LastTimerStart);
             this.ResetButton.Unfocus();
         }
 
